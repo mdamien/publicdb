@@ -1,12 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django_extensions.db.fields import json
+from django_extensions.db.fields import json, CreationDateTimeField
 
 class API(models.Model):
     "A set of dataset. ex: Movie API with Movies, Ratings, Users, ..."
     name = models.CharField(max_length=30)
-    slug = models.SlugField()
+    slug = models.SlugField(unique=True)
     owner = models.ForeignKey(User)
+    meta = json.JSONField()
+    created = CreationDateTimeField()
 
     def __str__(self):
         return self.name
@@ -16,7 +18,8 @@ class Klass(models.Model):
     api = models.ForeignKey(API)
     name = models.CharField(max_length=30)
     slug = models.SlugField()
-    meta = json.JSONField() #Validation, plural, fields,...
+    meta = json.JSONField()
+    created = CreationDateTimeField()
 
     def __str__(self):
         return self.name
