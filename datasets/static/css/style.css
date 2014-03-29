@@ -3,6 +3,8 @@ body {
     padding-bottom: 20px;
 }
 
+/* HOMEPAGE AND BASE */
+
 .header,
 .marketing {
     padding-right: 15px;
@@ -45,4 +47,11 @@ body {
     .header {
         margin-bottom: 30px;
     }
+}
+
+
+/* FORMS */
+
+.control-label, .form-group>.col-md-4 {
+    float:none;
 }
