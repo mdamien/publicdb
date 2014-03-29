@@ -17,10 +17,10 @@
             <li><a href="http://github.com/mdamien/publicdb">GitHub</a></li>
             <li><a href="{% url 'api_list' %}">APIs</a></li>
             {% if user.is_authenticated %}
-                <li><a>Logged as {{user}}</a><li>
+                <li><a href="{% url 'user_profile' user.pk %}">Logged as {{user}}</a><li>
                 <li><a href="{% url 'django.contrib.auth.views.logout' %}">Logout</a></li>
             {% else %}
-                <li><a href="/login-url-to-put-here">Signup / Login</a></li>
+                <li><a href="{% url 'login' %}">Signup / Login</a></li>
             {% endif %}
         </ul>
         <h3 class="text-muted">Public DB</h3>

@@ -7,9 +7,13 @@
 <a href="{% url 'edit_api' api.slug %}">
     <button type="button" class="btn btn-info">Edit</button>
 </a>
-<button type="button" class="btn btn-danger">Delete</button>
-
+<a href="{% url 'delete_api' api.slug %}">
+    <button type="button" class="btn btn-danger">Delete</button>
+</a>
 <h2>Classes</h2>
+<a href="{% url 'new_klass' api.slug %}">
+    <button type="button" class="btn btn-success">Add</button>
+</a>
 <table class="table table-stripped table-hover">
     <thead>
         <tr>
@@ -25,15 +29,17 @@
                 <td>{{ klass.name }}</td>
                 <td>{{ klass.instances.all|length }}</td>
                 <td>
-                    <button type="button" class="btn btn-success">Manage instances</button>
+                    <a href="{% url 'instance_list' api.slug klass.slug %}">
+                        <button type="button" class="btn btn-default">Manage instances</button>
+                    </a>
                 </td>
                 <td>
-                    {#<a href="{% url 'edit_klass' api.slug klass.slug %}">#}
+                    <a href="{% url 'edit_klass' api.slug klass.slug %}">
                         <button type="button" class="btn btn-info">Edit</button>
-                    {#</a>#}
-                    {# <a href="{% url 'delete_klass' api.slug klass.slug %}"> #}
+                    </a>
+                    <a href="{% url 'delete_klass' api.slug klass.slug %}">
                         <button type="button" class="btn btn-danger">Delete</button>
-                    {# </a> #}
+                    </a>
                 </td>
             </tr>
         {% endfor %}
