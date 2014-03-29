@@ -24,6 +24,7 @@ class APIForm(ModelForm):
 class APICreateView(CreateView):
     form_class = APIForm
     template_name = "datasets/new_api.html"
+    slug_url_kwarg = "api_slug"
 
     def form_valid(self, form):
         form.owner = self.request.user
@@ -34,6 +35,7 @@ new_api = APICreateView.as_view()
 
 class APIEditView(UpdateView):
     form_class = APIForm
+    slug_url_kwarg = "api_slug"
     model = API
     template_name = "datasets/edit_api.html"
 
@@ -46,6 +48,7 @@ edit_api = APIEditView.as_view()
 
 class APIDetailView(DetailView):
     model = API
+    slug_url_kwarg = "api_slug"
     template_name = "datasets/view_api.html"
 
 view_api = APIDetailView.as_view()
@@ -60,3 +63,5 @@ class APIListView(ListView):
     template_name = "datasets/list_apis.html"
 
 api_list = APIListView.as_view()
+
+nope = TemplateView.as_view(template_name="nope.html")
