@@ -4,7 +4,7 @@
 {% block content %}
 {% bootstrap_messages %}
 
-<form action="/url/to/submit/" method="post" class="form">
+<form action="{% url 'new_api' %}" method="post" class="form">
     {% csrf_token %}
     {% bootstrap_form form %}
     {% buttons %}
