@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, CreateView 
+from django.views.generic import TemplateView, CreateView, DetailView 
 from django.core.urlresolvers import reverse
 
 from .models import API
@@ -11,5 +11,7 @@ class CreateAPIView(CreateView):
     model = API
     template_name = "datasets/new_api.html"
 
-    def get_succes_url():
-        return "/"
+class APIDetailView(DetailView):
+    model = API
+    template_name = "datasets/view_api.html"
+    context_obj = "api"

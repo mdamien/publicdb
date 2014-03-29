@@ -1,6 +1,8 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django_extensions.db.fields import json, CreationDateTimeField
+
 
 class API(models.Model):
     "A set of dataset. ex: Movie API with Movies, Ratings, Users, ..."
@@ -9,6 +11,9 @@ class API(models.Model):
     owner = models.ForeignKey(User)
     meta = json.JSONField()
     created = CreationDateTimeField()
+
+    def get_absolute_url(self):
+        return reverse('view_api',args=(self.slug,))
 
     def __str__(self):
         return self.name
