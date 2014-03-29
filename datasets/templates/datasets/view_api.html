@@ -1,7 +1,44 @@
 {% extends "base.html" %}
 
+{% load bootstrap3 %}
+
 {% block content %}
-<h1>{{ api.name }}</h1>
-<h2><a href="{% url 'edit_api' api.slug %}">Edit</a></h2>
-<h2>Coming...soon!</h2>
+    <h1>{{ api.name }}</h1>
+<a href="{% url 'edit_api' api.slug %}">
+    <button type="button" class="btn btn-info">Edit</button>
+</a>
+<button type="button" class="btn btn-danger">Delete</button>
+
+<h2>Classes</h2>
+<table class="table table-stripped table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th># of instances</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for klass in api.klasses.all %}
+            <tr>
+                <td>{{ klass.name }}</td>
+                <td>{{ klass.instances.all|length }}</td>
+                <td>
+                    <button type="button" class="btn btn-success">Manage instances</button>
+                </td>
+                <td>
+                    {#<a href="{% url 'edit_klass' api.slug klass.slug %}">#}
+                        <button type="button" class="btn btn-info">Edit</button>
+                    {#</a>#}
+                    {# <a href="{% url 'delete_klass' api.slug klass.slug %}"> #}
+                        <button type="button" class="btn btn-danger">Delete</button>
+                    {# </a> #}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</ul>
+
 {% endblock %}

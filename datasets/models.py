@@ -9,7 +9,7 @@ class API(models.Model):
     name = models.CharField(max_length=30)
     slug = models.SlugField(unique=True)
     owner = models.ForeignKey(User)
-    meta = json.JSONField()
+    meta = json.JSONField(blank=True)
     created = CreationDateTimeField()
 
     def get_absolute_url(self):
@@ -20,10 +20,10 @@ class API(models.Model):
 
 class Klass(models.Model):
     "A representation of a class of data. ex:Book, Websites, Places, Tickets,.."
-    api = models.ForeignKey(API)
+    api = models.ForeignKey(API, related_name="klasses")
     name = models.CharField(max_length=30)
     slug = models.SlugField()
-    meta = json.JSONField()
+    meta = json.JSONField(blank=True)
     created = CreationDateTimeField()
 
     def __str__(self):
@@ -31,7 +31,7 @@ class Klass(models.Model):
 
 class Instance(models.Model):
     "A concrete data instance of a class of data. ex: Batman, Superman, Carott,.." 
-    klass = models.ForeignKey(Klass)
+    klass = models.ForeignKey(Klass,related_name='instances')
     data = json.JSONField()
 
     def __str__(self):

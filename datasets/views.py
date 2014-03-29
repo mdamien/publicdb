@@ -30,16 +30,6 @@ class APICreateView(CreateView):
         form.meta = "{}"
         return super(APICreateView, self).form_valid(form)
 
-
-class APIDetailView(DetailView):
-    model = API
-    template_name = "datasets/view_api.html"
-
-
-class HomeView(TemplateView):
-    template_name = "home.html"
-
-
 class APIEditView(UpdateView):
     form_class = APIForm
     model = API
@@ -49,6 +39,15 @@ class APIEditView(UpdateView):
         form.owner = self.request.user
         form.meta = "{}"
         return super(APIEditView, self).form_valid(form)
+
+class APIDetailView(DetailView):
+    model = API
+    template_name = "datasets/view_api.html"
+
+
+class HomeView(TemplateView):
+    template_name = "home.html"
+
 
 class APIListView(ListView):
     model = API
