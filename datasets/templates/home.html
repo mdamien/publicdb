@@ -2,9 +2,9 @@
 
 {% block content %}
     <div class="row">
+        <h2 class="text-center">Create your API &#187; Enter your data &#187; Have fun!</h2>
         <p class="text-center">
-            <h2>Create your API &#187; Enter your data &#187; Have fun!</h2>
-            <a class="btn btn-lg btn-success" href="{% url 'new_api' %}" role="button">Get started</a>
+            <a class="btn btn-lg btn-success" href="{% url 'new_api' %}" role="button">Create an API</a>
         </p>
     </div>
 
@@ -12,29 +12,23 @@
         <h3> Examples </h3>
         <a href="{% url 'example-blog' %}"><button class="btn btn-warning">Blog</button></a>
         <a href="{% url 'example-blog' %}"><button class="btn btn-warning">Places I Like</button></a>
-        <a href="{% url 'example-blog' %}"><button class="btn btn-warning">Cat social graph</button></a>
+        <a href="{% url 'example-cats' %}"><button class="btn btn-warning">Cat social graph</button></a>
     </div>
     <div class="row marketing">
-        <div class="col-lg-6">
-            <h4>Easy and fast</h4>
-            <p>In a few steps, you can create a simple REST API and kickstart your project.</p>
+        <h3> Guide </h3>
+            <h4>Create an API</h4>
+            <p>You API consists of Classes (ex:Book, Article, Product,..) and data stored into Instances (Don Quixote, Robinson Crusoe,...)</p>
 
-            <h4>Manage any data</h4>
-            <p>Every object is stored as a JSON so it's easy for you to</p>
+            <h4>Manage your API</h4>
+            <p>To create Classes and Instances you can use this website. But, as a long-term solution, you can use the <a href="/api/v1/?format=json">Meta API</a></p>
 
-            <h4>Validation</h4>
-            <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
-        </div>
+            <h4>Using the Meta API</h4>
+            <p>For now, the API is really basic. It's basically a Tastypie REST API. To </p>
 
-        <div class="col-lg-6">
-            <h4>Open-source</h4>
-            <p>Run your own instance of this website</p>
-
-            <h4>Automate everything</h4>
-            <p>Create your API and manage it directly via the <a href="#">meta API</a></p>
-
-            <h4>Kickstart you project</h4>
-            <p>Looking to start a TODO list with Angular ? A blog with JQuery ? An admin interface for your data ? It never have been that easy</p>
+            <h4>Contribute</h4>
+            <p>Run your own instance of this website and improve it for your needs, <a href="https://github.com/mdamien/publicdb">source code of the website</a></p>
+        
+            <h4>F.A.Q.</h4>
         </div>
     </div>
 {% endblock %}

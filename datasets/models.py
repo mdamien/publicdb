@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django_extensions.db.fields import json, CreationDateTimeField
 from django_extensions.db.models import  TimeStampedModel
 
-#TODO meta field with a more robust JSONField
+#TODO meta field as string
 #TODO add user restrictions: How to share them with the API ?
 
 class API(models.Model):

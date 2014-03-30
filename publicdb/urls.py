@@ -17,13 +17,14 @@ urlpatterns = patterns('',
 #TODO namespace URLs and move them to
 #TODO rename API to Dabaset
 
-SLUG_REGEX = '[a-zA-Z0-9]+'
+SLUG_REGEX = '[-a-zA-Z0-9]+'
 
 urlpatterns += patterns('datasets.views', 
         url(r'^$', 'home', name="home"),
         url(r'^new/$', 'new_api', name="new_api"),
 
         url(r'examples/blog/$', TemplateView.as_view(template_name="examples/blog.html"), name="example-blog"),
+        url(r'examples/cat-social/$', TemplateView.as_view(template_name="examples/cat-social.html"), name="example-cats"),
 
         #TODO move this inside user/xxx/api/xxx/class/xxx/instances/
         url(r'^instances/(?P<instance_pk>\d+)/', include(patterns('datasets.views',
