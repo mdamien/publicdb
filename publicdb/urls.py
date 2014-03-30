@@ -25,6 +25,7 @@ urlpatterns += patterns('datasets.views',
 
         url(r'examples/blog/$', TemplateView.as_view(template_name="examples/blog.html"), name="example-blog"),
         url(r'examples/cat-social/$', TemplateView.as_view(template_name="examples/cat-social.html"), name="example-cats"),
+        url(r'examples/places/$', TemplateView.as_view(template_name="examples/places.html"), name="example-places"),
 
         #TODO move this inside user/xxx/api/xxx/class/xxx/instances/
         url(r'^instances/(?P<instance_pk>\d+)/', include(patterns('datasets.views',

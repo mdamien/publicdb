@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block css %}
+    {{ block.super }}
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+<style rel="stylesheet" type="text/css">
+#map {
+    margin-top:20px;
+    height:300px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>Example: Places</h1>
+<a id="src"><button class="btn btn-success">API call</button></a>
+<div id="map">
+
+</div>
+
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script src="{% static "js/jquery.js" %}"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+<script >
+var map = L.map('map').setView([51.505, -0.09], 2);
+
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+var url = '/api/v1/instance/?format=json&klass__slug=place'                                                         
+    + '&klass__api__slug=places&klass__api__owner__username=tic';
+$('#src').attr('href',url);    
+$.getJSON(url, function(data) {
+    var places = data.objects; 
+    places.forEach(function(place){
+        var splitted = place.data.split('\n');
+        var name = splitted[0];
+        var lat = parseFloat(splitted[1]);
+        var lng = parseFloat(splitted[2]);
+        L.marker([lat, lng]).addTo(map)
+            .bindPopup(name);
+    
+    });
+});
+</script>
+{% endblock %}
