@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+{% load humanize %}
+
+{% block content %}
+<h2>Instances of {{ klass.name }}</h2>
+<a href="{% url 'new_instance' api.slug klass.slug %}">
+    <button type="button" class="btn btn-success">Add</button>
+</a>
+<table class="table table-stripped table-hover">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Value</th>
+            <th>Created</th>
+            <th>Modified</th>
+            <th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for instance in instance_list %}
+            <tr>
+                <td>{{ instance.pk }}</td>
+                <td>{{ instance.data|truncatechars:30 }}</td>
+                <td>{{ instance.created|naturaltime }}</td>
+                <td>{{ instance.modified|naturaltime }}</td>
+                <td>
+                    <a href="{% url 'edit_instance' instance.pk %}">
+                        <button type="button" class="btn btn-info">Edit</button>
+                    </a>
+                    <form action="{% url 'delete_instance' instance.pk %}" method="post"> 
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</ul>
+{% endblock %}

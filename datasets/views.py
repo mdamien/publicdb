@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.views.generic import (TemplateView, CreateView, 
-            UpdateView, DetailView, ListView, FormView)
+            UpdateView, DetailView, ListView, FormView, DeleteView)
 from django.core.urlresolvers import reverse
 from django.forms import ModelForm
 
 from .models import API, Klass, Instance
+
+#TODO refactor classes to be more DRY
 
 class HomeView(TemplateView):
     template_name = "home.html"
@@ -97,20 +99,62 @@ edit_klass = KlassEditView.as_view()
 
 delete_klass = nope
 
-class InstanceListView(ListView):
+class InstanceViewMixin: 
     model = Instance
-    template_name = "datasets/instance/list.html"
+
+    def get_context_data(self, **kwargs):
+        data = super(InstanceViewMixin, self).get_context_data(**kwargs)
+        data['klass'] = self.get_klass()
+        data['api'] = self.get_api()
+        return data
+
+    def get_klass(self): #TODO make it a one-time request
+        return Klass.objects.get(slug=self.kwargs['klass_slug'])
+
+    def get_api(self):
+        return self.get_klass().api
 
     def get_queryset(self):
         return Instance.objects.filter(
-            klass__slug=self.kwargs['klass_slug'],
-            klass__api__slug=self.kwargs['api_slug'],
-        )
+            klass=self.get_klass(),
+            klass__api=self.get_api(),
+        ).select_related()
+
+#TODO add CRSF token for delete button
+class InstanceListView(InstanceViewMixin, ListView):
+    template_name = "datasets/instance/list.html"
+
+
+class InstanceCreateView(InstanceViewMixin, CreateView):
+    template_name = "datasets/instance/new.html"
+
+    def get_success_url(self):
+        return reverse('instance_list',args=(self.object.klass.api.slug,
+            self.object.klass.slug))
+
+class InstanceEditView(UpdateView):
+    model = Instance
+    pk_url_kwarg = 'instance_pk'
+    template_name = "datasets/instance/edit.html"
+
+    def get_success_url(self):
+        return reverse('instance_list',args=(self.object.klass.api.slug,
+            self.object.klass.slug))
+
+class InstanceDeleteView(DeleteView):
+    model = Instance
+    pk_url_kwarg = 'instance_pk'
+
+    def get_success_url(self):
+        return reverse('instance_list',args=(self.object.klass.api.slug,
+            self.object.klass.slug))
+
 
 instance_list = InstanceListView.as_view()
-new_instance = nope
-edit_instance = nope
-delete_instance = nope
+new_instance = InstanceCreateView.as_view()
+edit_instance = InstanceEditView.as_view()
+delete_instance = InstanceDeleteView.as_view()
+
 delete_all_instances = nope
 
 user_profile = nope
