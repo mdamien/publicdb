@@ -4,14 +4,14 @@
 
 {% block content %}
     <h1>{{ api.name }}</h1>
-<a href="{% url 'edit_api' api.slug %}">
+<a href="{% url 'edit_api' user.pk api.slug %}">
     <button type="button" class="btn btn-info">Edit</button>
 </a>
-<a href="{% url 'delete_api' api.slug %}">
+<a href="{% url 'delete_api' user.pk api.slug %}">
     <button type="button" class="btn btn-danger">Delete</button>
 </a>
 <h2>Classes</h2>
-<a href="{% url 'new_klass' api.slug %}">
+<a href="{% url 'new_klass' user.pk api.slug %}">
     <button type="button" class="btn btn-success">Add</button>
 </a>
 <table class="table table-stripped table-hover">
@@ -29,15 +29,15 @@
                 <td>{{ klass.name }}</td>
                 <td>{{ klass.instances.all|length }}</td>
                 <td>
-                    <a href="{% url 'instance_list' api.slug klass.slug %}">
+                    <a href="{% url 'instance_list' user.pk api.slug klass.slug %}">
                         <button type="button" class="btn btn-default">Manage instances</button>
                     </a>
                 </td>
                 <td>
-                    <a href="{% url 'edit_klass' api.slug klass.slug %}">
+                    <a href="{% url 'edit_klass' user.pk api.slug klass.slug %}">
                         <button type="button" class="btn btn-info">Edit</button>
                     </a>
-                    <a href="{% url 'delete_klass' api.slug klass.slug %}">
+                    <a href="{% url 'delete_klass' user.pk api.slug klass.slug %}">
                         <button type="button" class="btn btn-danger">Delete</button>
                     </a>
                 </td>

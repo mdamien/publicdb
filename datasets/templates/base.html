@@ -15,9 +15,8 @@
         <ul class="nav nav-pills pull-right">
             <li class="active"><a href="{% url 'home' %}">Home</a></li>
             <li><a href="http://github.com/mdamien/publicdb">GitHub</a></li>
-            <li><a href="{% url 'api_list' %}">APIs</a></li>
             {% if user.is_authenticated %}
-                <li><a href="{% url 'user_profile' user.pk %}">Logged as {{user}}</a><li>
+                <li><a href="{% url 'user_page' user.pk %}">Logged as {{user}}</a><li>
                 <li><a href="{% url 'django.contrib.auth.views.logout' %}">Logout</a></li>
             {% else %}
                 <li><a href="{% url 'login' %}">Signup / Login</a></li>

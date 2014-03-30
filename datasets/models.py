@@ -5,17 +5,18 @@ from django_extensions.db.fields import json, CreationDateTimeField
 from django_extensions.db.models import  TimeStampedModel
 
 #TODO meta field with a more robust JSONField
+#TODO add user restrictions: How to share them with the API ?
 
 class API(models.Model):
     "A set of dataset. ex: Movie API with Movies, Ratings, Users, ..."
     name = models.CharField(max_length=30)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField()
     owner = models.ForeignKey(User)
     meta = json.JSONField(blank=True)
     created = CreationDateTimeField()
 
     def get_absolute_url(self):
-        return reverse('view_api',args=(self.slug,))
+        return reverse('view_api',args=(self.owner.pk, self.slug,))
 
     class Meta:
         ordering = ('name',)

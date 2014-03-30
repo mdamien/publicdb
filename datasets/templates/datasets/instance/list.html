@@ -5,7 +5,7 @@
 
 {% block content %}
 <h2>Instances of {{ klass.name }}</h2>
-<a href="{% url 'new_instance' api.slug klass.slug %}">
+<a href="{% url 'new_instance' user.pk api.slug klass.slug %}">
     <button type="button" class="btn btn-success">Add</button>
 </a>
 <table class="table table-stripped table-hover">
@@ -29,7 +29,7 @@
                     <a href="{% url 'edit_instance' instance.pk %}">
                         <button type="button" class="btn btn-info">Edit</button>
                     </a>
-                    <form action="{% url 'delete_instance' instance.pk %}" method="post"> 
+                    <form action="{% url 'delete_instance' instance.pk %}" method="post" class="inline"> 
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>

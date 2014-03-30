@@ -7,6 +7,7 @@ from django.forms import ModelForm
 from .models import API, Klass, Instance
 
 #TODO refactor classes to be more DRY
+#TODO find a way for the URL reversing to be more DRY
 
 class HomeView(TemplateView):
     template_name = "home.html"
@@ -63,11 +64,11 @@ class APIDetailView(DetailView):
 view_api = APIDetailView.as_view()
 
 
-class APIListView(ListView):
+class UserPageView(ListView):
     model = API
     template_name = "datasets/api/list.html"
 
-api_list = APIListView.as_view()
+user_page = UserPageView.as_view()
 
 delete_api = nope
 
@@ -77,7 +78,7 @@ class KlassCreateView(CreateView):
     template_name = "datasets/klass/new.html"
     
     def get_success_url(self):
-        return reverse('view_api',args=(self.object.api.slug,))
+        return reverse('view_api',args=(self.request.user.pk, self.object.api.slug,))
 
 new_klass = KlassCreateView.as_view()
 
@@ -93,7 +94,7 @@ class KlassEditView(UpdateView):
         )
 
     def get_success_url(self):
-        return reverse('view_api',args=(self.object.api.slug,))
+        return reverse('view_api',args=(self.request.user.pk, self.object.api.slug,))
 
 edit_klass = KlassEditView.as_view()
 
@@ -129,7 +130,9 @@ class InstanceCreateView(InstanceViewMixin, CreateView):
     template_name = "datasets/instance/new.html"
 
     def get_success_url(self):
-        return reverse('instance_list',args=(self.object.klass.api.slug,
+        return reverse('instance_list',args=(
+            self.request.user.pk,
+            self.object.klass.api.slug,
             self.object.klass.slug))
 
 class InstanceEditView(UpdateView):
@@ -138,7 +141,9 @@ class InstanceEditView(UpdateView):
     template_name = "datasets/instance/edit.html"
 
     def get_success_url(self):
-        return reverse('instance_list',args=(self.object.klass.api.slug,
+        return reverse('instance_list',args=(
+            self.request.user.pk,
+            self.object.klass.api.slug,
             self.object.klass.slug))
 
 class InstanceDeleteView(DeleteView):
@@ -146,7 +151,9 @@ class InstanceDeleteView(DeleteView):
     pk_url_kwarg = 'instance_pk'
 
     def get_success_url(self):
-        return reverse('instance_list',args=(self.object.klass.api.slug,
+        return reverse('instance_list',args=(
+            self.request.user,
+            self.object.klass.api.slug,
             self.object.klass.slug))
 
 

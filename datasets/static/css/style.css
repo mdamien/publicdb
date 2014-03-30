@@ -3,6 +3,12 @@ body {
     padding-bottom: 20px;
 }
 
+/* HELPERS */
+
+.inline {
+    display:inline;
+}
+
 /* HOMEPAGE AND BASE */
 
 .header,
