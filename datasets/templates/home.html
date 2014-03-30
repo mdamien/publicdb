@@ -2,9 +2,18 @@
 
 {% block content %}
     <div class="row">
-        <p class="text-center"><a class="btn btn-lg btn-success" href="{% url 'new_api' %}" role="button">Create your API</a></p>
+        <p class="text-center">
+            <h2>Create your API &#187; Enter your data &#187; Have fun!</h2>
+            <a class="btn btn-lg btn-success" href="{% url 'new_api' %}" role="button">Get started</a>
+        </p>
     </div>
 
+    <div class="row marketing text-center">
+        <h3> Examples </h3>
+        <a href="{% url 'example-blog' %}"><button class="btn btn-warning">Blog</button></a>
+        <a href="{% url 'example-blog' %}"><button class="btn btn-warning">Places I Like</button></a>
+        <a href="{% url 'example-blog' %}"><button class="btn btn-warning">Cat social graph</button></a>
+    </div>
     <div class="row marketing">
         <div class="col-lg-6">
             <h4>Easy and fast</h4>

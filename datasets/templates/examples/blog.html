@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block css %}
+    {{ block.super }}
+<style rel="stylesheet" type="text/css">
+.article {
+    margin-bottom:20px;
+    border-left: 4px solid rgba(112, 147, 219, 0.44);
+    padding-left: 10px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<a id="src" class="pull-right"><button class="btn btn-success">API call</button></a>
+<h1>Example: Blog</h1>
+<div id="articles">
+
+</div>
+
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script src="{% static "js/jquery.js" %}"></script>
+    <script src="{% static "examples/js/markdown.js" %}"></script>
+<script >
+//TODO paging, custom blog url
+var url = '/api/v1/instance/?format=json&klass__slug=article'                                                         
+    + '&klass__api__slug=blog&klass__api__owner__username=tic&order_by=-created';
+$('#src').attr('href',url);
+$.getJSON(url, function(data) {
+    var articles = data.objects;
+    for(var i=0; i < articles.length; i++){
+        var article = articles[i];
+        $('#articles').append('<section class="article">'
+            +markdown.toHTML(article.data)
+            +'</section><hr>');
+    }
+});
+
+</script>
+{% endblock %}

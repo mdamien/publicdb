@@ -6,17 +6,19 @@
 <head>
 <meta charset="utf-8">
 <title>Public DB</title>
+{% block css %}
 <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
 <link href="{% static 'css/style.css' %}" rel="stylesheet">
+{% endblock %}
 </head>
 <body>
 <div class="container">
     <div class="header">
         <ul class="nav nav-pills pull-right">
-            <li class="active"><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="http://github.com/mdamien/publicdb">GitHub</a></li>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="http://github.com/mdamien/publicdb">Source</a></li>
             {% if user.is_authenticated %}
-                <li><a href="{% url 'user_page' user.pk %}">Logged as {{user}}</a><li>
+                <li><a href="{% url 'user_page' user.pk %}">My profile ({{user.username}})</a><li>
                 <li><a href="{% url 'django.contrib.auth.views.logout' %}">Logout</a></li>
             {% else %}
                 <li><a href="{% url 'login' %}">Signup / Login</a></li>
@@ -27,6 +29,9 @@
     {% block content %}
     {% endblock %}
 </div>
+
+{% block js %}
+{% endblock %}
 </body>
 </html>
 

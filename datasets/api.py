@@ -45,6 +45,7 @@ class InstanceResource(ModelResource):
             'created': ALL,
             'klass': ALL_WITH_RELATIONS,
             }
+        ordering = ['created','modified']
 
 
 api = Api(api_name='v1')
