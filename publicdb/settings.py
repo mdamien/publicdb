@@ -40,7 +40,9 @@ INSTALLED_APPS = (
     'bootstrap3',
 
     'datasets',
-    
+   
+    'tastypie',    
+
     'debug_toolbar',
     'django_extensions',
 )

@@ -3,8 +3,9 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django_extensions.db.fields import json, CreationDateTimeField
 
-#TODO own JSON Field
+#TODO more robust JSONField
 #TODO Timestamp the data [instance]
+#TODO Instance validation
 
 class API(models.Model):
     "A set of dataset. ex: Movie API with Movies, Ratings, Users, ..."

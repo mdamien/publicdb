@@ -73,7 +73,9 @@ delete_api = nope
 class KlassCreateView(CreateView):
     model = Klass
     template_name = "datasets/klass/new.html"
-    success_url = "/"
+    
+    def get_success_url(self):
+        return reverse('view_api',args=(self.object.api.slug,))
 
 new_klass = KlassCreateView.as_view()
 
@@ -82,13 +84,30 @@ class KlassEditView(UpdateView):
     model = Klass
     template_name = "datasets/klass/edit.html"
 
-    def get_object():
-        raise Exception("Man, you have work to do!")
+    def get_object(self):
+        return Klass.objects.get(
+            api__slug=self.kwargs['api_slug'],
+            slug=self.kwargs['klass_slug'],
+        )
 
-edit_klass = nope
+    def get_success_url(self):
+        return reverse('view_api',args=(self.object.api.slug,))
+
+edit_klass = KlassEditView.as_view()
+
 delete_klass = nope
 
-instance_list = nope
+class InstanceListView(ListView):
+    model = Instance
+    template_name = "datasets/instance/list.html"
+
+    def get_queryset(self):
+        return Instance.objects.filter(
+            klass__slug=self.kwargs['klass_slug'],
+            klass__api__slug=self.kwargs['api_slug'],
+        )
+
+instance_list = InstanceListView.as_view()
 new_instance = nope
 edit_instance = nope
 delete_instance = nope
