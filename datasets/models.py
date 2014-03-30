@@ -3,6 +3,8 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django_extensions.db.fields import json, CreationDateTimeField
 
+#TODO own JSON Field
+#TODO Timestamp the data [instance]
 
 class API(models.Model):
     "A set of dataset. ex: Movie API with Movies, Ratings, Users, ..."
@@ -26,6 +28,9 @@ class Klass(models.Model):
     meta = json.JSONField(blank=True)
     created = CreationDateTimeField()
 
+    class Meta:
+        unique_together = ("api", "slug")
+    
     def __str__(self):
         return self.name
 
