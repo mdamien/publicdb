@@ -6,10 +6,10 @@ TEMPLATE_DEBUG = DEBUG
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mydb',
-        'USER': 'FAKE USER',
+        'NAME': 'publicdb',
+        'USER': os.environ.get('DB_USER'),
         'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': 'localhost',        
+        'HOST': 'localhost',
 }        
     }
 

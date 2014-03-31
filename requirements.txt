@@ -9,3 +9,5 @@ python-dateutil==2.2
 python-mimeparse==0.1.4
 six==1.6.1
 sqlparse==0.1.11
+psycopg2
+gunicorn
