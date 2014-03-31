@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+
+{% block content %}
+    <h2> Confirm deletion of {{ api.name }}</h2>
+    <h4> This will delete the API and ALL the related Classes and Instances</h4>
+
+{% bootstrap_messages %}
+
+<form action="" method="post" class="form">
+    {% csrf_token %}
+    {% buttons %}
+    <button type="submit" class="btn btn-lg btn-danger">
+        Confirm deletion of '{{ api.name }}'
+    </button>
+    {% endbuttons %}
+</form>
+
+{% endblock %}

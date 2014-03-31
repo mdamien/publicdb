@@ -10,7 +10,8 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+PROJECT_DIR = os.path.dirname(BASE_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -20,9 +21,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '4(u=wius8f63u=-r&6nlgktiq!t)t_&txds-0h0!#&kfot52uh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = []
 INTERNAL_IPS = ('127.0.0.1')
@@ -44,7 +45,6 @@ INSTALLED_APPS = (
    
     'tastypie',    
 
-    'debug_toolbar',
     'django_extensions',
 )
 
@@ -92,3 +92,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_DIR = os.path.join(PROJECT_DIR, 'static')
+
+# Other
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'

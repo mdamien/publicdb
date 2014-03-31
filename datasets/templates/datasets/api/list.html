@@ -1,10 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1> API list</h1>
-<ul>
+<h1>My APIs</h1>
 {% for api in api_list %}
-    <li><a href="{% url 'view_api' user.pk api.slug %}">{{ api.name }}</a></li>
+<a href="{% url 'view_api' user.pk api.slug %}" class="btn btn-lg btn-default" role="button">{{ api.name }}</a></li>
 {% endfor %}
-</ul>
 {% endblock %}

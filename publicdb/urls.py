@@ -9,13 +9,13 @@ from datasets.api import api
 
 urlpatterns = patterns('',
         url(r'^api/', include(api.urls)),
-        url(r'^logout/$', 'django.contrib.auth.views.logout', { 'next_page':"/" }),
-        url('^login/$', 'datasets.views.nope', name="login"),
+        url(r'^logout/$', 'django.contrib.auth.views.logout', { 'next_page':"/" }, name="logout"),
+        url('^login/$', 'django.contrib.auth.views.login',name="login"),
         url(r'^admin/', include(admin.site.urls)),
         )
 
-#TODO namespace URLs and move them to
-#TODO rename API to Dabaset
+#TODO namespace URLs and move them to the app
+#TODO rename API to Dataset
 
 SLUG_REGEX = '[-a-zA-Z0-9]+'
 
