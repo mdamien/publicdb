@@ -26,8 +26,17 @@
         </ul>
         <h3 class="text-muted">Public DB</h3>
     </div>
-    {% block content %}
-    {% endblock %}
+
+{# I present: The poor-man breadcrumb #}
+<ol class="breadcrumb">
+{% if api %}
+<li><a href="{% url 'user_page' user.pk %}">My APIs</a></li>
+<li><a href="{% url 'view_api' user.pk api.slug %}">{{ api.name }}</a></li>
+{% endif %}
+</ol>
+
+{% block content %}
+{% endblock %}
 </div>
 
 {% block js %}
