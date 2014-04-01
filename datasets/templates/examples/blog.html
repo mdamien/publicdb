@@ -12,10 +12,15 @@
 }
 </style>
 {% endblock %}
-
 {% block content %}
 <h1>Example: Blog</h1>
-<a id="src"><button class="btn btn-success">API call</button></a>
+  <div class="form-group">
+    <label for="url">API url</label>
+    <input type="text" class="form-control" 
+        value="/api/v1/instance/?format=json&klass__slug=article&klass__api__slug=blog&klass__api__owner__username=tic&order_by=-created"
+        id="url">
+  </div>
+<a role="button" class="btn btn-success" id="refresh" > Refresh</a>
 <div id="articles">
 
 </div>
@@ -24,14 +29,13 @@
 
 {% block js %}
     {{ block.super }}
-    <script src="{% static "js/jquery.js" %}"></script>
     <script src="{% static "examples/js/markdown.js" %}"></script>
-<script >
-//TODO paging, custom blog url
-var url = '/api/v1/instance/?format=json&klass__slug=article'                                                         
-    + '&klass__api__slug=blog&klass__api__owner__username=tic&order_by=-created';
-$('#src').attr('href',url);
-$.getJSON(url, function(data) {
+i<script >
+//TODO paging
+
+function refresh(){
+$.getJSON($("#url").val(), function(data) {
+    $('#articles').html("   ");
     var articles = data.objects;
     for(var i=0; i < articles.length; i++){
         var article = articles[i];
@@ -40,6 +44,9 @@ $.getJSON(url, function(data) {
             +'</section><hr>');
     }
 });
+}
+$("#refresh").click(refresh);
+refresh();
 
 </script>
 {% endblock %}

@@ -30,7 +30,7 @@ class APIForm(ModelForm):
 
     def clean(self):        
         if self.owner.api_set.count() >= LIMITS.API_PER_USER:
-            raise ValidationError("An user can't have more than %d APIs" % LIMITS.API_PER_USER)
+            raise ValidationError("A user can't have more than %d APIs" % LIMITS.API_PER_USER)
         return super(APIForm, self).clean()
 
     def save(self, force_insert=False, force_update=False, commit=True):

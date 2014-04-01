@@ -1,0 +1,32 @@
+{% load static %}
+
+<style rel="stylesheet" type="text/css">
+.item {
+    margin-bottom:20px;
+    border-left: 4px solid rgba(112, 147, 219, 0.44);
+    padding-left: 10px;
+}
+</style>
+
+<div id="guide">
+
+</div>
+<a id="src">API call for this guide</a>
+
+    <script src="{% static "examples/js/markdown.js" %}"></script>
+<script >
+document.addEventListener('DOMContentLoaded', function(){
+//TODO paging, custom blog url
+var url = '/api/v1/instance/?format=json&klass__slug=item'                                                         
+    + '&klass__api__slug=guide&klass__api__owner__username=tic&order_by=created';
+$('#src').attr('href',url);
+$.getJSON(url, function(data) {
+    var items = data.objects;
+    items.forEach(function(item){
+        $('#guide').append('<section class="item">'
+            +markdown.toHTML(item.data)
+            +'</section><hr>');
+    });
+});
+});
+</script>

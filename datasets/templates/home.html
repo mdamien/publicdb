@@ -9,24 +9,14 @@
     </div>
 
     <div class="row marketing text-center">
-        <h3> Examples </h3>
+        <h3> Examples & Make-your-own</h3>
         <a href="{% url 'example-blog' %}"><button class="btn btn-warning">Blog</button></a>
         <a href="{% url 'example-places' %}"><button class="btn btn-warning">Places</button></a>
         <a href="{% url 'example-cats' %}"><button class="btn btn-warning">Cat social graph</button></a>
     </div>
     <div class="row marketing">
         <h3> Guide </h3>
-            <h4>Create an API</h4>
-            <p>You API consists of Classes (ex:Book, Article, Product,..) and data stored into Instances (Don Quixote, Robinson Crusoe,...)</p>
-
-            <h4>Manage your API</h4>
-            <p>To create Classes and Instances you can use this website. But, as a long-term solution, you can use the <a href="/api/v1/?format=json">Meta API</a></p>
-
-            <h4>Using the Meta API</h4>
-            <p>For now, the API is really basic. It's basically a Tastypie REST API. For hints, look at the source and the /schema option of the API</p>
-
-            <h4>Contribute</h4>
-            <p>Run your own instance of this website and improve it for your needs, <a href="https://github.com/mdamien/publicdb">source code of the website</a></p>
+            {% include "examples/guide.html" %}
         </div>
     </div>
 {% endblock %}
