@@ -2,6 +2,7 @@
 
 {% block content %}
 <h1>My APIs</h1>
+<a class="btn btn-lg btn-success" href="{% url 'new_api' %}" role="button">Create an API</a></br><br/>
 {% for api in api_list %}
 <a href="{% url 'view_api' user.pk api.slug %}" class="btn btn-lg btn-default" role="button">{{ api.name }}</a></li>
 {% endfor %}

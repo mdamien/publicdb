@@ -5,7 +5,8 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.forms import ModelForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from .models import API, Klass, Instance
+from .models import API, Klass, Instance, LIMITS
+from django.core.exceptions import ValidationError
 
 #TODO factorize functions to be more DRY
 
@@ -27,6 +28,11 @@ class APIForm(ModelForm):
         model = API
         fields = ('name','slug')
 
+    def clean(self):        
+        if self.owner.api_set.count() >= LIMITS.API_PER_USER:
+            raise ValidationError("An user can't have more than %d APIs" % LIMITS.API_PER_USER)
+        return super(APIForm, self).clean()
+
     def save(self, force_insert=False, force_update=False, commit=True):
         m = super(APIForm, self).save(commit=False)
         m.owner = self.owner
@@ -39,13 +45,13 @@ class APICreateView(LoginRequiredMixin, CreateView):
     template_name = "datasets/api/new.html"
     slug_url_kwarg = "api_slug"
 
-    def form_valid(self, form):
+    def get_form(self, form_class):
+        form = super(APICreateView, self).get_form(form_class)
         form.owner = self.request.user
-        return super(APICreateView, self).form_valid(form)
+        return form
 
 
 new_api = APICreateView.as_view()
-
 
 class APIEditView(LoginRequiredMixin, UpdateView):
     form_class = APIForm
@@ -53,9 +59,10 @@ class APIEditView(LoginRequiredMixin, UpdateView):
     model = API
     template_name = "datasets/api/edit.html"
 
-    def form_valid(self, form):
+    def get_form(self, form_class):
+        form = super(APIEditView, self).get_form(form_class)
         form.owner = self.request.user
-        return super(apieditview, self).form_valid(form)
+        return form
 
     def get_queryset(self):
         return super(APIEditView, self).get_queryset().filter(owner=self.request.user)
@@ -100,6 +107,12 @@ class KlassForm(ModelForm):
         model = Klass
         fields = ('name','slug')
 
+    def clean(self):
+        if self.api.klasses.count() >= LIMITS.KLASS_PER_API:
+            raise ValidationError("An API can't have more than %d Classes" % LIMITS.KLASS_PER_API) 
+        return super(KlassForm, self).clean()
+
+
     def save(self, force_insert=False, force_update=False, commit=True):
         m = super(KlassForm, self).save(commit=False)
         m.api = self.api
@@ -113,10 +126,11 @@ class KlassCreateView(LoginRequiredMixin, CreateView):
     form_class = KlassForm
     template_name = "datasets/klass/new.html"
 
-    def form_valid(self, form):
+    def get_form(self, form_class):
+        form = super(KlassCreateView, self).get_form(form_class)
         form.api = API.objects.get(slug=self.kwargs.get('api_slug'),
                 owner=self.request.user)
-        return super(KlassCreateView, self).form_valid(form)
+        return form
 
     def get_success_url(self):
         return reverse('view_api',args=(self.request.user.pk, self.object.api.slug,))
@@ -135,10 +149,11 @@ class KlassEditView(LoginRequiredMixin, UpdateView):
             slug=self.kwargs['klass_slug'],
         )
 
-    def form_valid(self, form):
+    def get_form(self, form_class):
+        form = super(KlassEditView, self).get_form(form_class)
         form.api = API.objects.get(slug=self.kwargs.get('api_slug'),
                 owner=self.request.user)
-        return super(KlassEditView, self).form_valid(form)
+        return form
     
     def get_success_url(self):
         return reverse('view_api',args=(self.request.user.pk, self.object.api.slug,))
@@ -168,6 +183,13 @@ class InstanceForm(ModelForm):
     class Meta:
         model = Instance
         fields = ('data',)
+
+    def clean(self):        
+        if self.klass.instances.count() >= LIMITS.INSTANCES_PER_KLASS:
+            raise ValidationError("A Class can't have more than %s Instances" % LIMITS.INSTANCES_PER_KLASS)
+        if len(self.data) > LIMITS.INSTANCE_DATA_LENGTH:
+            raise ValidationError("An instance data can't have more than %d characters" % LIMITS.INSTANCE_DATA_LENGTH)
+        return super(InstanceForm, self).clean()
 
     def save(self, force_insert=False, force_update=False, commit=True):
         m = super(InstanceForm, self).save(commit=False)
@@ -216,10 +238,11 @@ class InstanceCreateView(InstanceViewMixin, CreateView):
             self.object.klass.api.slug,
             self.object.klass.slug))
 
-    def form_valid(self, form):
+    def get_form(self, form_class):
+        form = super(InstanceCreateView, self).get_form(form_class)
         form.klass = self.get_klass()
-        return super(InstanceCreateView, self).form_valid(form)
-
+        return form
+    
     def get_queryset(self):
         return super(InstanceCreateView, self).get_queryset().filter(klass__api__owner=self.request.user)
 
@@ -236,9 +259,10 @@ class InstanceEditView(UpdateView):
             self.object.klass.api.slug,
             self.object.klass.slug))
 
-    def form_valid(self, form):
+    def get_form(self, form_class):
+        form = super(InstanceEditView, self).get_form(form_class)
         form.klass = self.object.klass
-        return super(InstanceEditView, self).form_valid(form)
+        return form
     
     def get_queryset(self):
         return super(InstanceEditView, self).get_queryset().filter(klass__api__owner=self.request.user)
