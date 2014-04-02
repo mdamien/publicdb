@@ -7,6 +7,7 @@ https://docs.djangoproject.com/en/1.6/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
+from django.conf import global_settings
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
@@ -38,13 +39,12 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-
-    'bootstrap3',
-
+    
     'datasets',
-   
+    
+    'social.apps.django_app.default',
+    'bootstrap3',
     'tastypie',    
-
     'django_extensions',
 )
 
@@ -97,4 +97,21 @@ STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 # Other
 
 LOGIN_URL = 'login'
+LOGIN_ERROR_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
+
+
+AUTHENTICATION_BACKENDS = (
+      'social.backends.github.GithubOAuth2',
+      'django.contrib.auth.backends.ModelBackend',
+  )
+
+
+TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',
+)
+
+
+SOCIAL_AUTH_GITHUB_OAUTH2_SECRET =  os.environ.get('GITHUB_SECRET','NOKEY')
+SOCIAL_AUTH_GITHUB_OAUTH2_KEY = "f06b8c49b86b10f03f74"
